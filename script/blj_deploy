@@ -1,0 +1,31 @@
+#!/bin/bash
+#########################################################################
+##                                                                     ##
+##  This script deploys the latest BioLockJ code in the $BLJ.          ##
+##  Set $BLJ_SUP 770 permissions & setuid/setgid bits to assign owner. ##
+##                                                                     ##
+##  This script sets all file permissions to 770 to ensure all users   ##
+##  in our UNIX group have access.                                     ##
+##                                                                     ##
+#########################################################################
+
+echo "Begin $BLJ deployment"
+
+cd $BLJ
+appDir=$(dirname $BLJ)
+stagingDir=$appDir/blj_staging
+[ ${#appDir} -eq 0 ] && echo "Failed Deployment!  Cannot find parent dir of $BLJ" && exit 1
+[ ${#appDir} -gt 0 ] && [ ! -d "$stagingDir" ] && mkdir "$stagingDir"
+
+echo "Clear $stagingDir" && rm -rf $stagingDir/BioLockJ
+echo "Copy $BLJ --> $stagingDir" && cp -R $BLJ $stagingDir
+chmod -R 770 $stagingDir/BioLockJ && echo "$stagingDir/BioLockJ permissions set to 770"
+
+cd $appDir
+echo "Delete contents of $BLJ" && rm -rf $BLJ/*
+echo "Move $stagingDir/BioLockJ --> $appDir" && mv $stagingDir/BioLockJ/* $appDir/BioLockJ
+
+$BLJ/script/blj_build build-jar
+chmod -R 770 $BLJ && echo "$BLJ permissions set to 770"
+
+echo "Finished $BLJ deployment"

@@ -1,0 +1,58 @@
+###################################################################
+##                                                               ##
+##  This script contains common functions used in BioLockJ.      ##
+##                                                               ##
+###################################################################
+
+export DOCKER_FILE_PATH="$BLJ/resources/docker"
+export DOCKER_VER="docker-18.09.2"
+
+# List all Doker images & containers
+alias dockls='docker images; docker container ls --all'
+
+# Remove old Docker images
+clearDock() {
+	echo "Stop/remove all containers & remove old images..."
+	containers=$(docker ps -aq)
+	runningProcs=$(docker ps -q)
+	images=$(docker images -f "dangling=true" -q) 
+	
+	[ ${#runningProcs} -gt 0 ] && docker kill $runningProcs
+	[ ${#containers} -gt 0 ] && docker rm $containers
+	[ ${#images} -gt 0 ] && docker rmi $images
+	
+	echo "Verify old containers & images have been removed..."
+	dockls
+}
+
+# Instantiate Docker bash shell for image + map $BLJ_PROJ to /pipelines
+# Param $1 = Docker image name (without user prefix)
+# Example, for biolockj/rdp_classifier run: "dock rdp_classifier"
+function dock() {
+	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash"\"
+	docker run --rm -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash
+}
+
+# Instantiate Docker bash shell for image + map $BLJ_PROJ to /pipelines
+# Param $1 = Docker image name (without user prefix)
+# Param $2 = input directory
+# Param $3 = optional "dev" param which overrides container $BLJ with localhost $BLJ
+# Example, for biolockj/rdp_classifier run: "dockin rdp_classifier $BLJ_SUPR/test/data/r16s_fastq/R1"
+# Example, for Dev version of biolockj/blj_manager run: "dockin blj_manager $BLJ_SUPR/test/data/r16s_fastq/R1 dev"
+function dockin() {
+	echo "TESTING...$BLJ_PROJ"
+	if [ $# -eq 3 ] && [ "$3" == "dev" ]; then
+		echo -e  "Run Docker Container with Command:  \"docker run --rm -v $2:/input -v $BLJ_PROJ:/pipelines -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash\""
+		docker run --rm -v $2:/input -v $BLJ_PROJ:/pipelines -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash
+	else
+		echo -e  "Run Docker Container with Command:  \"docker run --rm -v $2:/input -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash\""
+		docker run --rm -v $2:/input -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash
+	fi
+}
+
+# Instantiate Docker bash shell for blj_manager with  
+# Param $1 = input directory
+function dockManager() {
+	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:/pipelines -v /var/run/docker.sock:/var/run/docker.sock v $1:/input -it $DOCKER_HUB_USER/blj_manager /bin/bash"\"
+	docker run --rm -v $BLJ_PROJ:/pipelines -v /var/run/docker.sock:/var/run/docker.sock -v $1:/input -it $DOCKER_HUB_USER/blj_manager /bin/bash
+}

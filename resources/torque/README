@@ -1,0 +1,14 @@
+Adding prologue / epilogue to your submit scripts
+=================================================
+
+1. Copy prologue and epilogue to your home directory
+   # rsync -avz /apps/torque/logs/ $HOME/torque # this will get the hpc copy
+   # The command below will get this copy which the parser is made for (they may be identical)
+   rsync -avz /projects/afodor_research/apps/blj_support/resources/torque/ $HOME/torque
+
+
+2. Put additional directive near top of submit script, with the other #PBS directives:
+   ### ** CHANGE <username> to your actual username! ** ###
+   #PBS -l prologue=/users/<username>/torque/prologue.sh
+   #PBS -l epilogue=/users/<username>/torque/epilogue.sh
+

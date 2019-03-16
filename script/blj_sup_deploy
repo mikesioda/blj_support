@@ -1,0 +1,36 @@
+#!/bin/bash
+#########################################################################
+##                                                                     ##
+##  This script deploys the latest BioLockJ code in the $BLJ.          ##
+##  Set $BLJ_SUP 770 permissions & setuid/setgid bits to assign owner. ##
+##                                                                     ##
+##  This script sets all file permissions to 770 to ensure all users   ##
+##  in our UNIX group have access.                                     ##
+##                                                                     ##
+#########################################################################
+
+scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BLJ_SUP="$( cd "$( dirname "$scriptDir" )" && pwd )"
+
+echo "Calling $scriptDir/blj_sup_deploy"
+echo "BLJ_SUP --> $BLJ_SUP"
+
+if [ ${#@} -eq 1 ]; then
+	[ ! -d "$1" ] && echo "Missing valid deployment dir - parameter given was $1" && exit 1
+	echo "Clearing $1/blj_support" && rm -rf $1/blj_support/.git* && rm $1/blj_support/README.md && rm -rf $1/blj_support/resources && rm -rf $1/blj_support/script/[bd]*
+	echo "Verify clear except ./script/.nfs* files : ls -alh $1/blj_support" && ls -alh $1/blj_support && ls -alh $1/blj_support/script
+	echo "Copying $BLJ_SUP from blj_staging to $1" && cp -R $BLJ_SUP/* $1/blj_support && cp -R $BLJ_SUP/.git* $1/blj_support
+	echo "Update permissions in $1/blj_support/*" && chmod -R 770 $1/blj_support/* && chmod 770 $1/blj_support/script/* && chmod -R 770 $1/blj_support/.git
+	echo "Verify updated: ls -alh $1/blj_support/*/*" && ls -alh $1/blj_support && ls -alh $1/blj_support/.git && ls -alh $1/blj_support/*/*
+	echo "Finished $BLJ_SUP deployment"
+else
+	echo "Begin blj_sup deployment"
+	appDir=$(dirname $BLJ_SUP)
+	stagingDir=$appDir/blj_staging
+	[ ${#appDir} -eq 0 ] && echo "Failed Deployment!  Cannot find parent dir of $BLJ" && exit 1
+	[ ${#appDir} -gt 0 ] && [ ! -d "$stagingDir" ] && mkdir "$stagingDir"
+	echo "Clear $stagingDir" && rm -rf $stagingDir/blj_support
+	echo "Copy $BLJ_SUP --> $stagingDir" && cp -R $BLJ_SUP $stagingDir
+	echo "Update permissions in $stagingDir/blj_support" && chmod -R 770 $stagingDir/blj_support
+	echo "Run: $stagingDir/blj_support/script/blj_sup_deploy $appDir" && $stagingDir/blj_support/script/blj_sup_deploy $appDir
+fi
