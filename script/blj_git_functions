@@ -1,16 +1,9 @@
 #!/bin/bash
-#########################################################################
-##                                                                     ##
-##  This script fetches the latest BioLockJ code from GitHub.          ##
-##  Set $BLJ file permissions to 770, setgid bit assigns group owner   ##
-##  Build the latest BioLockJ.jar file to $BLJ/dist                    ##
-##                                                                     ##
-##  This script sets all file permissions to 770 to ensure all users   ##
-##  in our UNIX group have access.  Git tracks this as a change so     ##
-##  may throw warnings about unstaged changes.  To avoid this we will  ##
-##  stash changes before we pull and discard the stash.                ##
-##                                                                     ##
-#########################################################################
+####################################################################
+##                                                                ##
+##  This script contains Git functions for BioLockJ + blj_support ##
+##                                                                ##
+####################################################################
 
 # Git latest $BLJ + build BioLockJ.jar
 function blj_git() {
@@ -26,6 +19,7 @@ function blj_sup_git() {
 }
 
 # Reset git repo + set file permissions 770
+# Param 1 Directory path of Git repo
 function reset_git() {
 	echo "Get latest code from GitHub repo: $1"
 	cd $1
