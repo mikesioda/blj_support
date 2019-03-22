@@ -7,14 +7,14 @@
 
 # Git latest $BLJ + build BioLockJ.jar
 function blj_git() {
-	[ !-d "$BLJ" ] && echo "Cannot build BLJ: directory not found: $BLJ_SUP" && return
+	[ ! -d "$BLJ" ] && echo "Cannot build BLJ: directory not found: $BLJ_SUP" && return
 	reset_git $BLJ
 	$BLJ/script/blj_build build-jar
 }
 
 # Git latest $BLJ_SUP
 function blj_sup_git() {
-	[ !-d "$BLJ_SUP" ] && echo "Cannot build BLJ_SUP: directory not found: $BLJ_SUP" && return
+	[ ! -d "$BLJ_SUP" ] && echo "Cannot build BLJ_SUP: directory not found: $BLJ_SUP" && return
 	reset_git $BLJ_SUP
 }
 
