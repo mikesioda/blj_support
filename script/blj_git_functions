@@ -25,7 +25,7 @@ function reset_git() {
 	cd $1
 	git fetch
   	git checkout master
-  	git reset --hard origin/master  
+  	git reset -q --hard origin/master  
 	chmod -R 770 $1
 	echo "==========================================================================="
 	echo "$1 Git pull SUCESSFULLY COMPLETED!"
