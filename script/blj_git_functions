@@ -24,7 +24,7 @@ function reset_git() {
 	echo "Get latest code from GitHub repo: $1"
 	cd $1
 	git fetch
-  	git checkout master
+  	git checkout -q master
   	git reset -q --hard origin/master  
 	chmod -R 770 $1
 	echo "==========================================================================="
