@@ -14,9 +14,9 @@
 SPACER="================================================================================"
 
 # Verify params
-[ $# -eq 0 ] &&  echo "Missing required parameter - must pass directory containing BioLockJ Configuration files" && exit 1
-[ ! -d "$1" ] && echo "$1 is not a valid directory" && exit 1
-[ ! -d "$BLJ_PROJ" ] && echo "Exit program - Required env variable BLJ_PROJ undefined" && exit 1
+[ $# -eq 0 ] && exit_script "Error [ blj_test ]: Missing required parameter - pass Config directory path"
+[ ! -d "$1" ] && exit_script "Error [ blj_test ]: $1 is not a valid directory"
+[ ! -d "$BLJ_PROJ" ] && exit_script "Error [ blj_test ]: Required env variable BLJ_PROJ undefined"
 
 # Get pipeline status
 pipeLineStatus() {
