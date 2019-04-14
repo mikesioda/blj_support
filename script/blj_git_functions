@@ -6,21 +6,21 @@
 ####################################################################
 
 # Git latest $BLJ + build BioLockJ.jar
-function blj_git() {
+blj_git() {
 	[ ! -d "$BLJ" ] && echo "Cannot build BLJ: directory not found: $BLJ_SUP" && return
 	reset_git $BLJ
 	$BLJ/script/blj_build build-jar
 }
 
 # Git latest $BLJ_SUP
-function blj_sup_git() {
+blj_sup_git() {
 	[ ! -d "$BLJ_SUP" ] && echo "Cannot build BLJ_SUP: directory not found: $BLJ_SUP" && return
 	reset_git $BLJ_SUP
 }
 
 # Reset git repo + set file permissions 770
 # Param 1 Directory path of Git repo
-function reset_git() {
+reset_git() {
 	echo "Get latest code from GitHub repo: $1"
 	cd $1
 	git fetch
