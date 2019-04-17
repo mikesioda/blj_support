@@ -27,7 +27,7 @@ clearDock() {
 # Instantiate Docker bash shell for image + map $BLJ_PROJ to /pipelines
 # Param $1 = Docker image name (without user prefix)
 # Example, for biolockj/rdp_classifier run: "dock rdp_classifier"
-function dock() {
+dock() {
 	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash"\"
 	docker run --rm -v $BLJ_PROJ:/pipelines -it $DOCKER_HUB_USER/$1 /bin/bash
 }
@@ -38,7 +38,7 @@ function dock() {
 # Param $3 = optional "dev" param which overrides container $BLJ with localhost $BLJ
 # Example, for biolockj/rdp_classifier run: "dockin rdp_classifier $BLJ_SUPR/test/data/r16s_fastq/R1"
 # Example, for Dev version of biolockj/blj_manager run: "dockin blj_manager $BLJ_SUPR/test/data/r16s_fastq/R1 dev"
-function dockin() {
+dockin() {
 	echo "TESTING...$BLJ_PROJ"
 	if [ $# -eq 3 ] && [ "$3" == "dev" ]; then
 		echo -e  "Run Docker Container with Command:  \"docker run --rm -v $2:/input -v $BLJ_PROJ:/pipelines -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash\""
@@ -51,7 +51,13 @@ function dockin() {
 
 # Instantiate Docker bash shell for blj_manager with  
 # Param $1 = input directory
-function dockManager() {
+dockManager() {
 	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:/pipelines -v /var/run/docker.sock:/var/run/docker.sock v $1:/input -it $DOCKER_HUB_USER/blj_manager /bin/bash"\"
 	docker run --rm -v $BLJ_PROJ:/pipelines -v /var/run/docker.sock:/var/run/docker.sock -v $1:/input -it $DOCKER_HUB_USER/blj_manager /bin/bash
+}
+
+# Launch a new bash shell for a running Docker container 
+# Param $1 = Docker container name or ID
+goDock() {
+	docker exec -ti ${1} /bin/bash
 }
