@@ -13,6 +13,7 @@ docker push $DOCKER_HUB_USER/blj_basic_py2${bljV}
 docker push $DOCKER_HUB_USER/blj_basic_java${bljV} 
 
 docker push $DOCKER_HUB_USER/java_module${bljV}
+docker push $DOCKER_HUB_USER/blj_manager${bljV}
 docker push $DOCKER_HUB_USER/biolockj${bljV}
 docker push $DOCKER_HUB_USER/blj_webapp${bljV}
 
@@ -34,5 +35,5 @@ docker push $DOCKER_HUB_USER/kraken2_classifier${bljV}
 
 echo "Docker push complete!"
 
-# docker push $DOCKER_HUB_USER/blj_manager${bljV}
+# 
 # docker push $DOCKER_HUB_USER/aws_manager${bljV}
