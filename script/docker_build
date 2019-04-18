@@ -17,8 +17,7 @@ docker build -t $DOCKER_HUB_USER/blj_basic_py2${bljV} $DOCKER_FILE_PATH -f $DOCK
 docker build -t $DOCKER_HUB_USER/blj_basic_java${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_basic_java.Dockerfile
 
 $DOCK_BLJ -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
-$DOCK_BLJ_CLI -t $DOCKER_HUB_USER/blj_manager${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_manager.Dockerfile
-$DOCK_BLJ -t $DOCKER_HUB_USER/aws_manager${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/aws_manager.Dockerfile
+$DOCK_BLJ_CLI -t $DOCKER_HUB_USER/biolockj${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj.Dockerfile
 $DOCK_BLJ_CLI -t $DOCKER_HUB_USER/blj_webapp${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_webapp.Dockerfile
 
 docker build -t $DOCKER_HUB_USER/rdp_classifier${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/rdp_classifier.Dockerfile
@@ -38,3 +37,6 @@ docker build -t $DOCKER_HUB_USER/kraken2_classifier_dbfree${bljV} $DOCKER_FILE_P
 docker build -t $DOCKER_HUB_USER/kraken2_classifier${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/kraken2_classifier.Dockerfile
 
 echo "Docker build complete!"
+
+# $DOCK_BLJ_CLI -t $DOCKER_HUB_USER/blj_manager${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_manager.Dockerfile
+# $DOCK_BLJ -t $DOCKER_HUB_USER/aws_manager${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/aws_manager.Dockerfile
