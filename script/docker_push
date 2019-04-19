@@ -33,6 +33,3 @@ docker push $DOCKER_HUB_USER/kraken_classifier${bljV}
 docker push $DOCKER_HUB_USER/kraken2_classifier${bljV}
 
 echo "Docker push complete!"
-
-# docker push $DOCKER_HUB_USER/biolockj${bljV}
-# docker push $DOCKER_HUB_USER/aws_manager${bljV}

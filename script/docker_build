@@ -37,6 +37,3 @@ docker build -t $DOCKER_HUB_USER/kraken2_classifier_dbfree${bljV} $DOCKER_FILE_P
 docker build -t $DOCKER_HUB_USER/kraken2_classifier${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/kraken2_classifier.Dockerfile
 
 echo "Docker build complete!"
-
-# $DOCK_BLJ_CLI -t $DOCKER_HUB_USER/biolockj${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj.Dockerfile
-# $DOCK_BLJ -t $DOCKER_HUB_USER/aws_manager${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/aws_manager.Dockerfile
