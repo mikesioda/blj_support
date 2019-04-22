@@ -37,7 +37,7 @@ dock() {
 # Param $2 = input directory
 # Param $3 = optional "dev" param which overrides container $BLJ with localhost $BLJ
 # Example, for biolockj/rdp_classifier run: "dockin rdp_classifier $BLJ_SUPR/test/data/r16s_fastq/R1"
-# Example, for Dev version of biolockj/blj_manager run: "dockin blj_manager $BLJ_SUPR/test/data/r16s_fastq/R1 dev"
+# Example, for Dev version of biolockj/biolockj_controller run: "dockin biolockj_controller $BLJ_SUPR/test/data/r16s_fastq/R1 dev"
 dockin() {
 	echo "TESTING...$BLJ_PROJ"
 	if [ $# -eq 3 ] && [ "$3" == "dev" ]; then
@@ -49,11 +49,11 @@ dockin() {
 	fi
 }
 
-# Instantiate Docker bash shell for blj_manager with  
+# Instantiate Docker bash shell for biolockj_controller with  
 # Param $1 = input directory
 dockManager() {
-	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/blj_manager /bin/bash"\"
-	docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK -v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/blj_manager /bin/bash
+	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/biolockj_controller /bin/bash"\"
+	docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK -v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/biolockj_controller /bin/bash
 }
 
 # Launch a new bash shell for a running Docker container 

@@ -13,13 +13,11 @@ docker pull $DOCKER_HUB_USER/blj_basic_py2${bljV}
 docker pull $DOCKER_HUB_USER/blj_basic_java${bljV} 
 
 docker pull $DOCKER_HUB_USER/java_module${bljV}
-docker pull $DOCKER_HUB_USER/blj_manager${bljV}
-docker pull $DOCKER_HUB_USER/blj_webapp${bljV}
+docker pull $DOCKER_HUB_USER/biolockj_controller${bljV}
 
 docker pull $DOCKER_HUB_USER/rdp_classifier${bljV}
 docker pull $DOCKER_HUB_USER/qiime_classifier${bljV}
 docker pull $DOCKER_HUB_USER/r_module${bljV}
-
 
 docker pull $DOCKER_HUB_USER/metaphlan2_classifier_dbfree${bljV}
 docker pull $DOCKER_HUB_USER/metaphlan2_classifier${bljV}
