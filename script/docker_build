@@ -4,20 +4,17 @@
 ##  Build all Docker images                                              ##
 ##                                                                       ##
 ###########################################################################
-. $BLJ/script/blj_functions
+. $BLJ_SUP/script/docker_functions
 
 echo "Build new module images..."
-
-DOCK_BLJ="docker build --build-arg BLJ_DATE=$(date +%s) --build-arg VER=$(get_version)"
-DOCK_BLJ_CLI="$DOCK_BLJ --build-arg DOCKER_CLIENT=$DOCKER_VER"
 
 docker build -t $DOCKER_HUB_USER/blj_basic${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_basic.Dockerfile
 docker build -t $DOCKER_HUB_USER/blj_bash${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_bash.Dockerfile
 docker build -t $DOCKER_HUB_USER/blj_basic_py2${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_basic_py2.Dockerfile
 docker build -t $DOCKER_HUB_USER/blj_basic_java${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/blj_basic_java.Dockerfile
 
-$DOCK_BLJ -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
-$DOCK_BLJ_CLI -t $DOCKER_HUB_USER/biolockj_controller${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj_controller.Dockerfile
+$(buildBljCmd) -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
+$(buildBljDockCliCmd) -t $DOCKER_HUB_USER/biolockj_controller${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj_controller.Dockerfile
 
 docker build -t $DOCKER_HUB_USER/rdp_classifier${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/rdp_classifier.Dockerfile
 docker build -t $DOCKER_HUB_USER/qiime_classifier${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/qiime_classifier.Dockerfile

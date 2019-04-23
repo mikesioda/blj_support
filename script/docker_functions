@@ -5,9 +5,25 @@
 ###################################################################
 
 export DOCKER_VER="docker-18.09.2"
-D_SOCK="/var/run/docker.sock"
+
 # List all Doker images & containers
 alias dockls='docker images; docker container ls --all'
+
+buildBljCmd() {
+	echo "docker build --build-arg BLJ_DATE=$(date +%s) --build-arg VER=$(biolockj -v)"
+}
+
+buildBljDockCliCmd() {
+	echo "$(buildBljCmd) --build-arg DOCKER_CLIENT=$DOCKER_VER"
+}
+
+# Build Docker images that contain $BLJ
+dockBuildBlj() {
+	$(buildBljCmd) -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
+	$(buildBljDockCliCmd) -t $DOCKER_HUB_USER/biolockj_controller${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj_controller.Dockerfile
+	docker push $DOCKER_HUB_USER/java_module${bljV}
+	docker push $DOCKER_HUB_USER/biolockj_controller${bljV}
+}
 
 # Remove old Docker images
 clearDock() {
@@ -28,7 +44,7 @@ clearDock() {
 # Param $1 = Docker image name (without user prefix)
 # Example, for biolockj/rdp_classifier run: "dock rdp_classifier"
 dock() {
-	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash"\"
+	echo -e  "Run Docker CMD:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash"\"
 	docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash
 }
 
@@ -41,10 +57,10 @@ dock() {
 dockin() {
 	echo "TESTING...$BLJ_PROJ"
 	if [ $# -eq 3 ] && [ "$3" == "dev" ]; then
-		echo -e  "Run Docker Container with Command:  \"docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash\""
+		echo -e  "Run Docker CMD:  \"docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash\""
 		docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -v $BLJ:/app/biolockj -it $DOCKER_HUB_USER/$1 /bin/bash
 	else
-		echo -e  "Run Docker Container with Command:  \"docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash\""
+		echo -e  "Run Docker CMD:  \"docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash\""
 		docker run --rm -v $2:$EFS_INPUT:ro -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash
 	fi
 }
@@ -52,7 +68,8 @@ dockin() {
 # Instantiate Docker bash shell for biolockj_controller with  
 # Param $1 = input directory
 dockManager() {
-	echo -e  "Run Docker Container with Command:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/biolockj_controller /bin/bash"\"
+	D_SOCK="/var/run/docker.sock"
+	echo -e  "Run Docker CMD:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/biolockj_controller /bin/bash"\"
 	docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -v $D_SOCK:$D_SOCK -v $1:$EFS_INPUT:ro -it $DOCKER_HUB_USER/biolockj_controller /bin/bash
 }
 

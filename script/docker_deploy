@@ -2,11 +2,8 @@
 ###########################################################################
 ##                                                                       ##
 ##  Build all Docker images and push them to the Docker hub              ##
-##  Uncommend $bljV to tag Docker images with the current $BLJ version   ##
 ##                                                                       ##
 ###########################################################################
-
-#bljV=$(get_version)
 
 docker_build
 clearDock
