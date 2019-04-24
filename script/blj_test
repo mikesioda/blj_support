@@ -49,7 +49,6 @@ fi
 
 numExecuted=0
 numSuccess=0
-pipDir=
 echo "BLJ pipeline output directory: $BLJ_PROJ"
 echo "Run test suite:  $1"
 echo "If pipline failures occur: $exitOnFailure"
@@ -59,19 +58,19 @@ echo "Initial Pipeline = $pipelineDir - $(date)"
 for f in $1/*; do
   biolockj $f
   count=0
-  pipDir="$(most_recent_pipeline)"
-  while [ "${count}" -lt 12 -a "$pipDir" == "$pipelineDir" ]; do
+  pipeDir="$(most_recent_pipeline)"
+  while [ "${count}" -lt 12 -a "$pipeDir" == "$pipelineDir" ]; do
     sleep 15
     let "count++"
-    pipDir="$(most_recent_pipeline)"
+    pipeDir="$(most_recent_pipeline)"
   done
   let "numExecuted++"
 
-  if [ "$pipDir" == "$pipelineDir" ]; then
+  if [ "$pipeDir" == "$pipelineDir" ]; then
     echo "Pipeline directory still not created after 60 seconds! Latest is still $pipelineDir --> EXIT SCRIPT!"
     exitProgram $numSuccess $numExecuted
   else
-  	pipelineDir="$pipDir"
+  	pipelineDir="$pipeDir"
 	  echo "New Pipeline started:  $pipelineDir - $(date)"
   fi
  
