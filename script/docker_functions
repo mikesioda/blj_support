@@ -9,20 +9,15 @@ export DOCKER_VER="docker-18.09.2"
 # List all Doker images & containers
 alias dockls='docker images; docker container ls --all'
 
+# Use to build containers with BioLockJ installed.
+# The date build-arg forces Docker to pull latest BioLockJ.tgz from GitHub 
 buildBljCmd() {
 	echo "docker build --build-arg BLJ_DATE=$(date +%s) --build-arg VER=$(biolockj -v)"
 }
 
+# Use to build containers with BioLockJ and the Docker client installed.
 buildBljDockCliCmd() {
 	echo "$(buildBljCmd) --build-arg DOCKER_CLIENT=$DOCKER_VER"
-}
-
-# Build Docker images that contain $BLJ
-dockBuildBlj() {
-	$(buildBljCmd) -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
-	$(buildBljDockCliCmd) -t $DOCKER_HUB_USER/biolockj_controller${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj_controller.Dockerfile
-	docker push $DOCKER_HUB_USER/java_module${bljV}
-	docker push $DOCKER_HUB_USER/biolockj_controller${bljV}
 }
 
 # Remove old Docker images
@@ -46,6 +41,15 @@ clearDock() {
 dock() {
 	echo -e  "Run Docker CMD:  \"docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash"\"
 	docker run --rm -v $BLJ_PROJ:$EFS_PROJ:delegated -it $DOCKER_HUB_USER/$1 /bin/bash
+}
+
+# Build Docker images that contain $BLJ
+dockBuildBlj() {
+	$(buildBljCmd) -t $DOCKER_HUB_USER/java_module${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/java_module.Dockerfile
+	$(buildBljDockCliCmd) -t $DOCKER_HUB_USER/biolockj_controller${bljV} $DOCKER_FILE_PATH -f $DOCKER_FILE_PATH/biolockj_controller.Dockerfile
+	docker push $DOCKER_HUB_USER/java_module${bljV}
+	docker push $DOCKER_HUB_USER/biolockj_controller${bljV}
+	clearDock
 }
 
 # Instantiate Docker bash shell for image + map $BLJ_PROJ to $EFS_PROJ
