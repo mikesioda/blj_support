@@ -4,7 +4,7 @@
 ##  Build all Docker images                                              ##
 ##                                                                       ##
 ###########################################################################
-. $BLJ_SUP/script/docker_functions
+. ${BLJ_SUP}/script/docker_functions
 
 echo "Build new module images..."
 

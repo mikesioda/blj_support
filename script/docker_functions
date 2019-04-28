@@ -56,8 +56,6 @@ dockBuildBlj() {
 # Param $1 = Docker image name (without user prefix)
 # Param $2 = input directory
 # Param $3 = optional "dev" param which overrides container $BLJ with localhost $BLJ
-# Example, for biolockj/rdp_classifier run: "dockin rdp_classifier $BLJ_SUPR/test/data/r16s_fastq/R1"
-# Example, for Dev version of biolockj/biolockj_controller run: "dockin biolockj_controller $BLJ_SUPR/test/data/r16s_fastq/R1 dev"
 dockin() {
 	echo "TESTING...$BLJ_PROJ"
 	if [ $# -eq 3 ] && [ "$3" == "dev" ]; then
