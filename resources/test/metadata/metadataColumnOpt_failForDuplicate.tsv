@@ -1,1 +1,1 @@
-sampleID	inputFile	readNumber	patientID	ruralUrban31A	31A.fq.gz	1	31	urban34A	34A.fq.gz	1	34	urban35A	34A.fq.gz	1	35	urban37A	37A.fq.gz	1	37	rural39A	39A.fq.gz	1	39	rural3A	oddlyNamedFile_1.fastq.gz	1	3	rural
+sampleID	inputFile	readNumber	patientID	ruralUrban31A	31A_R1.fq.gz	1	31	urban34A	34A_R1.fq.gz	1	34	urban35A	34A_R1.fq.gz	1	35	urban37A	37A_R1.fq.gz	1	37	rural39A	39A_R1.fq.gz	1	39	rural3A	oddlyNamedFile_1.fastq.gz	1	3	rural
