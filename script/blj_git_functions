@@ -15,7 +15,7 @@ blj_git() {
 # Git latest ${BLJ_SUP}
 blj_sup_git() {
 	[ ! -d "${BLJ_SUP}" ] && echo "Cannot build BLJ_SUP: directory not found: ${BLJ_SUP}" && return
-	reset_git ${BLJ_SUP}
+	reset_git "${BLJ_SUP}"
 }
 
 # Reset git repo + set file permissions 770
